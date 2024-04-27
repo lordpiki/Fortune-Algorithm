@@ -15,6 +15,7 @@ public:
 
     void addBody(const RigidBody& body);
     void addForce(Force* force);
+    bool areClosestSmallerThanN(const vector<float>& distances, float N);
 
     void update(float dt);
     

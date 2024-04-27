@@ -50,7 +50,7 @@ void Simulation::run() {
         glClear(GL_COLOR_BUFFER_BIT);
 
         renderer.render(physicsEngine.corners, false);
-        renderer.render(physicsEngine.setPoints);
+        renderer.render(physicsEngine.setPoints, false);
 
         glfwSwapBuffers(window);
 
