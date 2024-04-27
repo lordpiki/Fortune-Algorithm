@@ -14,7 +14,7 @@ int main() {
     glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
     // Create the GLFW window
-    GLFWwindow* window = glfwCreateWindow(800, 600, "Physics Simulation", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(800, 600, "Physics Simulation", nullptr, nullptr);  
     if (!window) {
         glfwTerminate();
         // Handle window creation error

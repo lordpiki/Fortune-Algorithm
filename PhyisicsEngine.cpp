@@ -1,8 +1,10 @@
 #include "PhysicsEngine.h"
 #include "Collision.h"
+#include "Helper.h"
+#include <iostream>
 
 void PhysicsEngine::addBody(const RigidBody& body) {
-    bodies.push_back(body);
+    setPoints.push_back(body);
 }
 
 void PhysicsEngine::addForce(Force* force) {
@@ -10,42 +12,36 @@ void PhysicsEngine::addForce(Force* force) {
 }
 
 void PhysicsEngine::update(float dt) {
-    applyForces();
-    integrateMotion(dt);
-    handleCollisions();
+    if (corners.size() != 0) return;
+    calculateVoronoiRegions();
 }
 
-void PhysicsEngine::applyForces() {
-    for (RigidBody& body : bodies) {
-        Vector2D totalForce(0.0f, 0.0f);
-        for (Force* force : forces) 
+void PhysicsEngine::calculateVoronoiRegions()
+{
+    float space = 0.01f;
+    float disDifference = 0.1f;
+    for (float i = -1.0f; i < 1.0f; i += space)
+    {
+        for (float j = -1.0f; j < 1.0f; j += space)
         {
-            totalForce = totalForce + force->calculateForce(body);
-        }
-        body.applyForce(totalForce);
-    }
-}
-
-void PhysicsEngine::integrateMotion(float dt) {
-    for (RigidBody& body : bodies) {
-        body.integrate(dt);
-    }
-}
-
-void PhysicsEngine::handleCollisions() {
-    // Existing body-to-body collision handling
-    for (RigidBody& body : bodies) {
-        if (Collision::checkWallCollision(body)) {
-            Collision::resolveWallCollision(body);
+            float smallestDis = 1000.0f;
+            int smallestIndex = -1;
+            for (int k = 0; k < setPoints.size(); k++)
+            {
+                float dis = Helper::distance(setPoints[k].position, Vector2D(i, j));
+                if (dis < smallestDis)
+                {
+					smallestDis = dis;
+					smallestIndex = k;
+				}
+            }
+            corners.push_back(RigidBody(0.0f, Vector2D(i, j), Vector2D(0.0f, 0.0f)));
+            corners[corners.size() - 1].setRGB(setPoints[smallestIndex].r, setPoints[smallestIndex].g, setPoints[smallestIndex].b);
         }
     }
-
-    //for (size_t i = 0; i < bodies.size(); ++i) {
-    //    for (size_t j = i + 1; j < bodies.size(); ++j) {
-    //        if (Collision::checkCollision(bodies[i], bodies[j])) {
-    //            Collision::resolveCollision(bodies[i], bodies[j]);
-    //        }
-    //    }
-    //}
-
+    std::cout << "corners size: " << corners.size() << std::endl;
+    
 }
+
+
+

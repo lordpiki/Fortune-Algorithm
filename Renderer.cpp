@@ -6,16 +6,22 @@ using std::endl;
 
 Renderer::Renderer(GLFWwindow* window) : window(window) {}
 
-void Renderer::render(const std::vector<RigidBody>& bodies) {
-    glClear(GL_COLOR_BUFFER_BIT);
+void Renderer::render(const std::vector<RigidBody>& bodies, bool toClear) {
+
 
     for (const RigidBody& body : bodies) {
         // Render the body (e.g., draw a circle or rectangle)
         glBegin(GL_POLYGON);
 
-        glColor3f(1.0f, 1.0f, 1.0f); // Set color to white
+        if (toClear) {
+            glColor3f(1.0f, 1.0f, 1.0f); // Set color to white
+		}
+        else
+        {
+            glColor3f(body.r, body.g, body.b); // Set color to white
+        }
 
-        float radius = 0.01f; // Assuming RigidBody has a method to get the radius
+        float radius = 0.005f; // Assuming RigidBody has a method to get the radius
         int numSegments = 100; // Number of segments to approximate the circle
 
         for (int i = 0; i < numSegments; i++) {
@@ -28,5 +34,4 @@ void Renderer::render(const std::vector<RigidBody>& bodies) {
         //cout << "body pos: (" << body.position.x << ", " << body.position.y << ")" << " acc: " << body.acceleration.x << ", " << body.acceleration.y << " vel: " << body.velocity.x << ", " << body.velocity.y << endl;
     }
 
-    glfwSwapBuffers(window);
 }

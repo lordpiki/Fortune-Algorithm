@@ -1,20 +1,25 @@
 #pragma once
 #include <vector>
+#include <unordered_map>
 #include "RigidBody.h"
 #include "Force.h"
 
+using std::vector;
+using std::unordered_map;
+
 class PhysicsEngine {
 public:
-    std::vector<RigidBody> bodies;
-    std::vector<Force*> forces;
+    vector<RigidBody> setPoints;
+    vector<RigidBody> corners;
+    vector<Force*> forces;
 
     void addBody(const RigidBody& body);
     void addForce(Force* force);
 
     void update(float dt);
+    
 
 private:
-    void applyForces();
-    void integrateMotion(float dt);
-    void handleCollisions();
+    void calculateVoronoiRegions();
+
 };

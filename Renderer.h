@@ -7,7 +7,7 @@ class Renderer {
 public:
     Renderer(GLFWwindow* window);
 
-    void render(const std::vector<RigidBody>& bodies);
+    void render(const std::vector<RigidBody>& bodies, bool toClear = true);
 
 private:
     GLFWwindow* window;

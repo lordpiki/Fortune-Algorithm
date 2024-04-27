@@ -11,14 +11,12 @@ Simulation::Simulation(GLFWwindow* window, float fixedTimeStep)
     lastTime(glfwGetTime()), accumulatedTime(0.0), fpsCounter(window) {
 
     
-    for (int i = 0; i < 5000; i++) {
-		RigidBody body(10.0f, Vector2D(Helper::getRand(-1, 1), Helper::getRand(-1, 1)), Vector2D(Helper::getRand(-1, 1), Helper::getRand(-1, 1)));
+    for (int i = 0; i < 10; i++) {
+		RigidBody body(10.0f, Vector2D(Helper::getRand(-1, 1), Helper::getRand(-1, 1)), Vector2D(0.0f, 0.0f));
+        body.setRGB(Helper::getRand(0, 1.0f), Helper::getRand(0, 1.0f), Helper::getRand(0, 1.0f));
 		physicsEngine.addBody(body);
 	}
 
-
-    GravityForce* gravity = new GravityForce(Vector2D(0.0f, -9.8f));
-    physicsEngine.addForce(gravity);
 }
 
 Simulation::~Simulation() {
@@ -28,7 +26,7 @@ Simulation::~Simulation() {
 void Simulation::run() {
     while (!glfwWindowShouldClose(window)) {
         // Process input
-        inputManager.processInput(physicsEngine.bodies);
+        //inputManager.processInput(physicsEngine.bodies);
 
         // Calculate the elapsed time since the last frame
         double currentTime = glfwGetTime();
@@ -49,7 +47,13 @@ void Simulation::run() {
         }
 
         // Render the scene
-        renderer.render(physicsEngine.bodies);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        renderer.render(physicsEngine.corners, false);
+        renderer.render(physicsEngine.setPoints);
+
+        glfwSwapBuffers(window);
+
 
         // Render the FPS counter
         fpsCounter.render();
