@@ -6,32 +6,53 @@ using std::endl;
 
 Renderer::Renderer(GLFWwindow* window) : window(window) {}
 
-void Renderer::render(const std::vector<RigidBody>& bodies, bool toClear) {
+void Renderer::render(const std::vector<RigidBody>& bodies, bool toClear)
+{
+    if (toClear)
+    {
+		glClear(GL_COLOR_BUFFER_BIT);
 
+	}
 
-    for (const RigidBody& body : bodies) {
-        // Render the body (e.g., draw a circle or rectangle)
-        glBegin(GL_POLYGON);
-
-        if (toClear) {
-            glColor3f(1.0f, 1.0f, 1.0f); // Set color to white
-		}
-        else
+    for (const RigidBody& body : bodies)
+    {
+        //draw a circle
+        glBegin(GL_TRIANGLE_FAN);
+        glColor3f(body.r, body.g, body.b);
+        glVertex2f(body.position.x, body.position.y);
+        for (int i = 0; i <= 300; i++)
         {
-            glColor3f(body.r, body.g, body.b); // Set color to white
-        }
+			double angle = 2.0 * 3.1415926 * double(i) / 300;
+			double x = 0.01f * cosf(angle);
+			double y = 0.01f * sinf(angle);
 
-        float radius = 0.005f; // Assuming RigidBody has a method to get the radius
-        int numSegments = 100; // Number of segments to approximate the circle
-
-        for (int i = 0; i < numSegments; i++) {
-            float theta = 2.0f * 3.1415926f * float(i) / float(numSegments); // Calculate angle for each segment
-            float x = radius * cosf(theta) + body.position.x; // Calculate x-coordinate
-            float y = radius * sinf(theta) + body.position.y; // Calculate y-coordinate
-            glVertex2f(x, y); // Add vertex to the polygon
-        }
+			glVertex2f(x + body.position.x, y + body.position.y);
+		}
         glEnd();
-        //cout << "body pos: (" << body.position.x << ", " << body.position.y << ")" << " acc: " << body.acceleration.x << ", " << body.acceleration.y << " vel: " << body.velocity.x << ", " << body.velocity.y << endl;
+	}
+}
+
+
+
+void Renderer::render(const std::vector<Edge>& edges, bool toClear) {
+
+    if (toClear)
+    {
+        glClear(GL_COLOR_BUFFER_BIT);
+
     }
+
+    for (const Edge& edge: edges)
+    {
+            
+		glBegin(GL_LINES);
+        glColor3f(1.0f, 1.0f, 1.0f);
+        glVertex2f(edge.start.x, edge.start.y);
+        glVertex2f(edge.end.x, edge.end.y);
+
+        glEnd();
+
+    }
+    //std::cout << "Edge size: " << edges.size() << std::endl;
 
 }

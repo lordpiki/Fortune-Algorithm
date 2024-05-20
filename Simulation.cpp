@@ -11,11 +11,31 @@ Simulation::Simulation(GLFWwindow* window, float fixedTimeStep)
     lastTime(glfwGetTime()), accumulatedTime(0.0), fpsCounter(window) {
 
     
-    for (int i = 0; i < 10; i++) {
-		RigidBody body(10.0f, Vector2D(Helper::getRand(-1, 1), Helper::getRand(-1, 1)), Vector2D(0.0f, 0.0f));
-        body.setRGB(Helper::getRand(0, 1.0f), Helper::getRand(0, 1.0f), Helper::getRand(0, 1.0f));
-		physicsEngine.addBody(body);
-	}
+ //   for (int i = 0; i < 5; i++) {
+	//	RigidBody body(10.0f, Vector2D(Helper::getRand(-1, 1), Helper::getRand(-1, 1)), Vector2D(0.0f, 0.0f));
+ //       body.setRGB(Helper::getRand(0, 1.0f), Helper::getRand(0, 1.0f), Helper::getRand(0, 1.0f));
+	//	physicsEngine.addBody(body);
+	//}
+
+    physicsEngine.addBody(RigidBody(10.0f, Vector2D(-1.0f, -1.0f), Vector2D(0.0f, 0.0f)));
+    physicsEngine.addBody(RigidBody(10.0f, Vector2D(-0.5f, -0.5f), Vector2D(0.0f, 0.0f)));
+    physicsEngine.addBody(RigidBody(10.0f, Vector2D(0.0f, 0.0f), Vector2D(0.0f, 0.0f)));
+    physicsEngine.addBody(RigidBody(10.0f, Vector2D(0.5f, 0.5f), Vector2D(0.0f, 0.0f)));
+    physicsEngine.addBody(RigidBody(10.0f, Vector2D(1.0f, 1.0f), Vector2D(0.0f, 0.0f)));
+    physicsEngine.addBody(RigidBody(10.0f, Vector2D(-1.0f, 1.0f), Vector2D(0.0f, 0.0f)));
+    physicsEngine.addBody(RigidBody(10.0f, Vector2D(-0.5f, 0.5f), Vector2D(0.0f, 0.0f)));
+    physicsEngine.addBody(RigidBody(10.0f, Vector2D(0.5f, -0.5f), Vector2D(0.0f, 0.0f)));
+    physicsEngine.addBody(RigidBody(10.0f, Vector2D(1.0f, -1.0f), Vector2D(0.0f, 0.0f)));
+    RigidBody body(10.0f, Vector2D(Helper::getRand(-1, 1), Helper::getRand(-1, 1)), Vector2D(0.0f, 0.0f));
+    body.setRGB(Helper::getRand(0, 1.0f), Helper::getRand(0, 1.0f), Helper::getRand(0, 1.0f));
+    physicsEngine.addBody(body);
+    std::cout << "Last body position: " << physicsEngine.setPoints.back().position.x << ", " << physicsEngine.setPoints.back().position.y << std::endl;
+
+
+
+
+
+    
 
 }
 
@@ -49,7 +69,7 @@ void Simulation::run() {
         // Render the scene
         glClear(GL_COLOR_BUFFER_BIT);
 
-        renderer.render(physicsEngine.corners, false);
+        renderer.render(physicsEngine.edges, false);
         renderer.render(physicsEngine.setPoints, false);
 
         glfwSwapBuffers(window);

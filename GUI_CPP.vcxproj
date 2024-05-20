@@ -102,7 +102,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)include</AdditionalIncludeDirectories>
     </ClCompile>
@@ -140,11 +140,13 @@
     <ClCompile Include="GravityForce.cpp" />
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="main.c" />
     <ClCompile Include="PhyisicsEngine.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="stb_wrapper.c" />
     <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -159,6 +161,7 @@
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RigidBody.h" />
     <ClInclude Include="Simulation.h" />
+    <ClInclude Include="stb_image_write.h" />
     <ClInclude Include="Vector2D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
